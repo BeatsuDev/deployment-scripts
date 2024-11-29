@@ -1,0 +1,33 @@
+#!/bin/bash
+if [ "$#" -eq 0 ]; then
+    echo -e "\e[91merror:\e[39m must provide source tarball to extract."
+    echo -e "  Usage: $0 <source-tarball>"
+    echo ""
+    echo "This script extracts the source tarball to a new directory named with the"
+    echo "current date, then symlinks html/ to point to that new directory."
+    exit 1
+fi
+
+
+directory_name=$(date +"%Y.%b.%d" | tr "[:upper:]" "[:lower:]")
+count=$(find -maxdepth 1 -type d -name "$directory_name*" | wc -l)
+
+if [ "$count" -eq 0 ]; then
+    new_directory="$directory_name"
+elif [ -d "$directory_name-$count" ];
+then
+    echo -e "\e[91merror:\e[39m directory \"$directory_name-$count\" already exists."
+    exit 1
+else
+    new_directory="$directory_name-$count"
+fi 
+
+mkdir "$new_directory"
+tar -xzf "$1" -C "$new_directory"
+
+if [ $? -ne 0 ]; then
+    echo -e "\e[91merror:\e[39m failed to extract tarball."
+    exit 1
+fi
+
+ln -sfn "$new_directory" "html"
