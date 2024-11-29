@@ -1,0 +1,15 @@
+#!/bin/bash
+if [ "$#" -eq 0 ]; then
+    echo -e "\e[91merror:\e[39m must provide directory that html should point to."
+    echo -e "    \e[92musage:\e[39m $0 <directory>"
+    echo ""
+    echo "Points the html symlink to the specified directory."
+    exit 1
+fi
+
+if [ ! -d "$1" ]; then
+    echo -e "\e[91merror:\e[39m directory \"$1\" does not exist."
+    exit 1
+fi
+
+ln -sfn $1 html
