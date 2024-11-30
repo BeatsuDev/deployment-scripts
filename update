@@ -9,7 +9,7 @@ if [ "$#" -eq 0 ]; then
 fi
 
 
-directory_name=$(date +"%Y.%b.%d" | tr "[:upper:]" "[:lower:]")
+directory_name=$(date +"%d.%b.%Y" | tr "[:upper:]" "[:lower:]")
 count=$(find -maxdepth 1 -type d -name "$directory_name*" | wc -l)
 
 if [ "$count" -eq 0 ]; then
