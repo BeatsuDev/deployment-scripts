@@ -32,4 +32,11 @@ fi
 
 rm $1
 
+diff -r "html" "$new_directory" > /dev/null
+if [ $? -eq 0]; then
+    echo -e "\e[91merror:\e[39m no changes detected. Removing update."
+    rm -r "$new_directory"
+    exit 1
+fi
+
 ln -sfn "$new_directory" "html"
